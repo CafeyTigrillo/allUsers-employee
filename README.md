@@ -96,7 +96,7 @@ The API includes a global error handler that:
 │   └── userModel.js
 ├── routes/
 │   └── userRoutes.js
-└── app.js
+└── server.js
 ```
 
 ## ⚡ Performance
