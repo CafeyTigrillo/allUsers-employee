@@ -14,7 +14,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);  
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -23,7 +23,6 @@ app.use((err, req, res, next) => {
         message: 'Something went wrong!'
     });
 });
-
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
