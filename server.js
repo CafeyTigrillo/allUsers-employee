@@ -1,30 +1,29 @@
 const express = require('express');
-const mysql = require('mysql2');
+const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 const port = 3000;
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '12345', 
-  database: 'franchise'
-});
+const corsOptions = {
+    origin: '*', 
+    methods: 'GET', 
+    optionsSuccessStatus: 204
+};
 
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to database:', err);
-    return;
-  }
-  console.log('Connected to database');
-});
-
-global.db = db;
-
+app.use(cors(corsOptions));
 app.use(express.json());
+
 app.use('/api/users', userRoutes);
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        success: false,
+        message: 'Something went wrong!'
+    });
+});
+
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });
