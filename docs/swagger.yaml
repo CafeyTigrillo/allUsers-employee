@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Restaurant Employee API
+  description: API for managing employees across different restaurant branches
+  version: 1.0.0
+paths:
+  /users/getAllusers:
+    get:
+      summary: Get all employees from various restaurant branches
+      description: This endpoint retrieves a list of all employees working across different restaurant branches, along with their role, branch information, and account details.
+      operationId: getAllUsers
+      tags:
+        - Users
+      responses:
+        '200':
+          description: A list of all employees from different restaurants
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    description: Indicates whether the request was successful
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                    description: Indicates failure
+                  message:
+                    type: string
+                    example: "An unexpected error occurred"
+                    description: Error message detailing the issue
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the employee
+          example: 1
+        name:
+          type: string
+          description: The full name of the employee
+          example: "Alice Admin"
+        email:
+          type: string
+          format: email
+          description: The email address of the employee
+          example: "alice@admin.com"
+        password:
+          type: string
+          description: The hashed password of the employee
+          example: "$2a$10$OyawXST6mPp.PIXl2mKt6OPu4n3y86YbsJm6UUnIrfZo9DekD91Ba"
+        role:
+          type: string
+          enum: [admin_central, branch_manager, branch_employee]
+          description: The role of the employee in the system
+          example: "admin_central"
+        branch_id:
+          type: integer
+          nullable: true
+          description: The ID of the branch where the employee works (null for admin_central)
+          example: null
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the employee record was created
+          example: "2025-02-01T23:27:31.000Z"
+
